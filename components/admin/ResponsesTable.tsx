@@ -35,6 +35,7 @@ export const ResponsesTable = ({ responses, onDelete, isDeleting }: ResponsesTab
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Contact</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Ratings</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Avg</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Comment</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Photo</th>
               <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Action</th>
             </tr>
@@ -62,6 +63,9 @@ export const ResponsesTable = ({ responses, onDelete, isDeleting }: ResponsesTab
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm font-semibold text-gray-900">{response.average_rating}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600 italic">
+                    {response.comment ? truncateText(response.comment, 25) : '-'}
+                  </td>
                   <td className="px-6 py-4 text-sm">
                     {response.photo_url ? (
                       <Eye size={18} className="text-blue-600 cursor-pointer" />
@@ -87,7 +91,7 @@ export const ResponsesTable = ({ responses, onDelete, isDeleting }: ResponsesTab
                 </tr>
                 {expandedId === response.id && (
                   <tr className="bg-blue-50 border-b border-gray-200">
-                    <td colSpan={6} className="px-6 py-4">
+                    <td colSpan={7} className="px-6 py-4">
                       <div className="space-y-3">
                         {response.comment && (
                           <div>
@@ -100,7 +104,7 @@ export const ResponsesTable = ({ responses, onDelete, isDeleting }: ResponsesTab
                             <p className="text-xs font-semibold text-gray-600 uppercase">Photo</p>
                             <div className="mt-2 relative w-40 h-40">
                               <Image
-                                src={response.photo_url}
+                                src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/feedback-photos/${response.photo_url}`}
                                 alt="Feedback photo"
                                 fill
                                 className="object-cover rounded"

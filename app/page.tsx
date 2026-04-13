@@ -10,10 +10,11 @@ import { RatingInput } from '@/components/common/RatingInput';
 import { FormInput, FormTextArea } from '@/components/common/FormInput';
 import { feedbackFormSchema, FeedbackFormType } from '@/lib/validation';
 import { calculateAverageRating, calculateSentiment } from '@/lib/utils';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 import Image from 'next/image';
 
 export default function FeedbackPage() {
+  const supabase = createClient();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -114,7 +115,8 @@ export default function FeedbackPage() {
               alt="Mary Queen of Love Medical Hospital Logo"
               width={100}
               height={100}
-              className="h-auto"
+              priority
+              className="h-auto w-auto"
             />
           </div>
           <h1 className="text-xl font-bold text-[var(--primary)] mb-1">

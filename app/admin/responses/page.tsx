@@ -7,12 +7,13 @@ import { Card } from '@/components/common/Card';
 import { FormInput } from '@/components/common/FormInput';
 import { ResponsesTable } from '@/components/admin/ResponsesTable';
 import { Button } from '@/components/common/Button';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 import { FeedbackResponse } from '@/types';
 import { downloadCSV } from '@/lib/utils';
 import { Download } from 'lucide-react';
 
 export default function ResponsesPage() {
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,7 +23,6 @@ export default function ResponsesPage() {
   const [filteredResponses, setFilteredResponses] = useState<FeedbackResponse[]>([]);
 
   useEffect(() => {
-    checkAuth();
     loadResponses();
   }, []);
 
@@ -30,12 +30,7 @@ export default function ResponsesPage() {
     filterResponses();
   }, [searchQuery, ratingFilter, allResponses]);
 
-  const checkAuth = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session) {
-      router.push('/admin/login');
-    }
-  };
+
 
   const loadResponses = async () => {
     try {

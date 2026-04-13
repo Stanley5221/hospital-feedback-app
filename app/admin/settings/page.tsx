@@ -9,10 +9,11 @@ import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { FormInput } from '@/components/common/FormInput';
 import { settingsFormSchema, SettingsFormType } from '@/lib/validation';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 import { AppSettings } from '@/types';
 
 export default function SettingsPage() {
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -29,21 +30,14 @@ export default function SettingsPage() {
   });
 
   useEffect(() => {
-    checkAuth();
     loadSettings();
   }, []);
 
-  const checkAuth = async () => {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) {
-      router.push('/admin/login');
-    } else {
-      setUserEmail(data.session.user.email || '');
-    }
-  };
-
   const loadSettings = async () => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) setUserEmail(user.email || '');
+
       const { data: settings, error } = await supabase
         .from('app_settings')
         .select('*')

@@ -8,9 +8,10 @@ import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { FormInput } from '@/components/common/FormInput';
 import { loginFormSchema, LoginFormType } from '@/lib/validation';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 
 export default function LoginPage() {
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');

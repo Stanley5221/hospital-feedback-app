@@ -3,7 +3,7 @@
 import { ReactNode } from 'react';
 import { AdminSidebar } from './Sidebar';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -11,6 +11,7 @@ interface AdminLayoutProps {
 
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
   const router = useRouter();
+  const supabase = createClient();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

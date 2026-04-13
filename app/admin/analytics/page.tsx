@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { LineChartWrapper, BarChartWrapper, PieChartWrapper } from '@/components/admin/Charts';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 import { FeedbackResponse } from '@/types';
 
 export default function AnalyticsPage() {
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [feedbackVolumeData, setFeedbackVolumeData] = useState<any[]>([]);
@@ -15,16 +16,8 @@ export default function AnalyticsPage() {
   const [sentimentData, setSentimentData] = useState<any[]>([]);
 
   useEffect(() => {
-    checkAuth();
     loadAnalytics();
   }, []);
-
-  const checkAuth = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session) {
-      router.push('/admin/login');
-    }
-  };
 
   const loadAnalytics = async () => {
     try {

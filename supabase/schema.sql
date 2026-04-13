@@ -76,6 +76,16 @@ CREATE POLICY "Authenticated users can insert settings" ON app_settings
 -- Note: You'll need to create this via the Supabase UI or use the storage API
 -- The bucket should be named "feedback-photos" and be set to public
 
+-- Storage Policies: Enable public uploads and viewing
+-- Copy and run these in the Supabase SQL Editor to fix RLS errors
+CREATE POLICY "Anyone can upload feedback photos" ON storage.objects
+  FOR INSERT
+  WITH CHECK (bucket_id = 'feedback-photos');
+
+CREATE POLICY "Anyone can view feedback photos" ON storage.objects
+  FOR SELECT
+  USING (bucket_id = 'feedback-photos');
+
 -- Grant permissions
 GRANT SELECT, INSERT ON feedback_responses TO authenticated, anon;
 GRANT DELETE ON feedback_responses TO authenticated;

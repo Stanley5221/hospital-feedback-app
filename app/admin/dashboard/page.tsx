@@ -7,11 +7,12 @@ import { StatCard } from '@/components/common/Card';
 import { Card } from '@/components/common/Card';
 import { RadarChartWrapper } from '@/components/admin/Charts';
 import { ResponsesTable } from '@/components/admin/ResponsesTable';
-import { supabase } from '@/supabase/client';
+import { createClient } from '@/utils/supabase/client';
 import { FeedbackResponse } from '@/types';
 import { Users, Star, Zap, Sparkles } from 'lucide-react';
 
 export default function DashboardPage() {
+  const supabase = createClient();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -25,16 +26,8 @@ export default function DashboardPage() {
   const [radarData, setRadarData] = useState<any[]>([]);
 
   useEffect(() => {
-    checkAuth();
     loadData();
   }, []);
-
-  const checkAuth = async () => {
-    const { data: session } = await supabase.auth.getSession();
-    if (!session) {
-      router.push('/admin/login');
-    }
-  };
 
   const loadData = async () => {
     try {
