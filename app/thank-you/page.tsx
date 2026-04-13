@@ -6,7 +6,7 @@ import { Button } from '@/components/common/Button';
 
 export default function ThankYouPage() {
   return (
-    <div className="max-w-xl mx-auto flex items-center justify-center min-h-screen px-4">
+    <div className="max-w-xl mx-auto flex items-center justify-center min-h-[50vh] px-4">
       <Card className="text-center">
         <div className="flex justify-center mb-6">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">

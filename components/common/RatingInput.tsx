@@ -11,21 +11,19 @@ interface RatingInputProps {
 
 export const RatingInput = ({ label, value, onChange, required }: RatingInputProps) => {
   return (
-    <div className="mb-6">
-      <label className="block text-gray-700 font-medium mb-3">
+    <div className="bg-white/40 px-4 py-2.5 rounded-xl border border-[rgba(226,232,240,1)] flex justify-between items-center transition-all hover:bg-white">
+      <label className="text-sm font-semibold text-[#475569] mb-0">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
-      <div className="flex gap-2">
+      <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((num) => (
           <button
             key={num}
             type="button"
             onClick={() => onChange(num)}
-            className={`w-12 h-12 rounded-lg border-2 text-xl transition-all ${
-              value === num
-                ? 'border-blue-600 bg-blue-50 text-blue-600'
-                : 'border-gray-300 text-gray-400 hover:border-gray-400'
+            className={`text-2xl transition-all hover:scale-110 ${
+              value >= num ? 'text-[#fbbf24]' : 'text-[#cbd5e1]'
             }`}
           >
             ★
